@@ -1,0 +1,398 @@
+{
+  "pipelineSpec": {
+    "components": {
+      "comp-condition-deploy-decision-1": {
+        "dag": {
+          "tasks": {
+            "train-and-deploy": {
+              "cachingOptions": {
+                "enableCache": true
+              },
+              "componentRef": {
+                "name": "comp-train-and-deploy"
+              },
+              "inputs": {
+                "parameters": {
+                  "alpha": {
+                    "componentInputParameter": "pipelineparam--tune-hyperparameters-best_alpha"
+                  },
+                  "container_uri": {
+                    "componentInputParameter": "pipelineparam--training_container_uri"
+                  },
+                  "location": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "us-central1"
+                      }
+                    }
+                  },
+                  "max_iter": {
+                    "componentInputParameter": "pipelineparam--tune-hyperparameters-best_max_iter"
+                  },
+                  "pipelineparam--pipeline_root": {
+                    "componentInputParameter": "pipelineparam--pipeline_root"
+                  },
+                  "project": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "qwiklabs-gcp-01-868d72e03fcc"
+                      }
+                    }
+                  },
+                  "serving_container_uri": {
+                    "componentInputParameter": "pipelineparam--serving_container_uri"
+                  },
+                  "staging_bucket": {
+                    "runtimeValue": {
+                      "constantValue": {
+                        "stringValue": "{{$.inputs.parameters['pipelineparam--pipeline_root']}}/staging"
+                      }
+                    }
+                  },
+                  "training_file_path": {
+                    "componentInputParameter": "pipelineparam--training_file_path"
+                  },
+                  "validation_file_path": {
+                    "componentInputParameter": "pipelineparam--validation_file_path"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "train-and-deploy"
+              }
+            }
+          }
+        },
+        "inputDefinitions": {
+          "parameters": {
+            "pipelineparam--accuracy_deployment_threshold": {
+              "type": "DOUBLE"
+            },
+            "pipelineparam--pipeline_root": {
+              "type": "STRING"
+            },
+            "pipelineparam--serving_container_uri": {
+              "type": "STRING"
+            },
+            "pipelineparam--training_container_uri": {
+              "type": "STRING"
+            },
+            "pipelineparam--training_file_path": {
+              "type": "STRING"
+            },
+            "pipelineparam--tune-hyperparameters-best_accuracy": {
+              "type": "DOUBLE"
+            },
+            "pipelineparam--tune-hyperparameters-best_alpha": {
+              "type": "DOUBLE"
+            },
+            "pipelineparam--tune-hyperparameters-best_max_iter": {
+              "type": "INT"
+            },
+            "pipelineparam--validation_file_path": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train-and-deploy": {
+        "executorLabel": "exec-train-and-deploy",
+        "inputDefinitions": {
+          "parameters": {
+            "alpha": {
+              "type": "DOUBLE"
+            },
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "max_iter": {
+              "type": "INT"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "serving_container_uri": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            },
+            "training_file_path": {
+              "type": "STRING"
+            },
+            "validation_file_path": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-tune-hyperparameters": {
+        "executorLabel": "exec-tune-hyperparameters",
+        "inputDefinitions": {
+          "parameters": {
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "max_trial_count": {
+              "type": "INT"
+            },
+            "parallel_trial_count": {
+              "type": "INT"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            },
+            "training_file_path": {
+              "type": "STRING"
+            },
+            "validation_file_path": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "parameters": {
+            "best_accuracy": {
+              "type": "DOUBLE"
+            },
+            "best_alpha": {
+              "type": "DOUBLE"
+            },
+            "best_max_iter": {
+              "type": "INT"
+            }
+          }
+        }
+      }
+    },
+    "deploymentSpec": {
+      "executors": {
+        "exec-train-and-deploy": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "train_and_deploy"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_and_deploy(\n    project: str,\n    location: str,\n    container_uri: str,\n    serving_container_uri: str,\n    training_file_path: str,\n    validation_file_path: str,\n    staging_bucket: str,\n    alpha: float,\n    max_iter: int,\n):\n\n    from google.cloud import aiplatform\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n    job = aiplatform.CustomContainerTrainingJob(\n        display_name=\"churn_kfp_training\",\n        container_uri=container_uri,\n        command=[\n            \"python\",\n            \"train.py\",\n            f\"--training_dataset_path={training_file_path}\",\n            f\"--validation_dataset_path={validation_file_path}\",\n            f\"--alpha={alpha}\",\n            f\"--max_iter={max_iter}\",\n            \"--nohptune\",\n        ],\n        staging_bucket=staging_bucket,\n        model_serving_container_image_uri=serving_container_uri,\n    )\n    model = job.run(replica_count=1, model_display_name=\"churn_kfp_model\")\n    endpoint = model.deploy( \n        traffic_split={\"0\": 100},\n        machine_type=\"n1-standard-2\",\n    )\n\n"
+            ],
+            "image": "python:3.8"
+          }
+        },
+        "exec-tune-hyperparameters": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "tune_hyperparameters"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef tune_hyperparameters(\n    project: str,\n    location: str,\n    container_uri: str,\n    training_file_path: str,\n    validation_file_path: str,\n    staging_bucket: str,\n    max_trial_count: int,\n    parallel_trial_count: int,\n) -> NamedTuple(\n    \"Outputs\",\n    [(\"best_accuracy\", float), (\"best_alpha\", float), (\"best_max_iter\", int)],\n):\n\n    from google.cloud import aiplatform\n    from google.cloud.aiplatform import hyperparameter_tuning as hpt\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n\n    worker_pool_specs = [\n        {\n            \"machine_spec\": {\n                \"machine_type\": \"n1-standard-4\",\n                \"accelerator_type\": \"NVIDIA_TESLA_K80\",\n                \"accelerator_count\": 1,\n            },\n            \"replica_count\": 1,\n            \"container_spec\": {\n                \"image_uri\": container_uri,\n                \"args\": [\n                    f\"--training_dataset_path={training_file_path}\",\n                    f\"--validation_dataset_path={validation_file_path}\",\n                    \"--hptune\",\n                ],\n            },\n        }\n    ]\n\n    custom_job = aiplatform.CustomJob(\n        display_name=\"tc_kfp_trial_job\",\n        worker_pool_specs=worker_pool_specs,\n    )\n\n    hp_job = aiplatform.HyperparameterTuningJob(\n        display_name=\"tc_kfp_tuning_job\",\n        custom_job=custom_job,\n        metric_spec={\n            \"accuracy\": \"maximize\",\n        },\n        parameter_spec={\n            \"alpha\": hpt.DoubleParameterSpec(\n                min=1.0e-4, max=1.0e-1, scale=\"linear\"\n            ),\n            \"max_iter\": hpt.DiscreteParameterSpec(\n                values=[1, 2], scale=\"linear\"\n            ),\n        },\n        max_trial_count=max_trial_count,\n        parallel_trial_count=parallel_trial_count,\n    )\n\n    hp_job.run()\n\n    metrics = [\n        trial.final_measurement.metrics[0].value for trial in hp_job.trials\n    ]\n    best_trial = hp_job.trials[metrics.index(max(metrics))]\n    best_accuracy = float(best_trial.final_measurement.metrics[0].value)\n    best_alpha = float(best_trial.parameters[0].value)\n    best_max_iter = int(best_trial.parameters[1].value)\n\n    return best_accuracy, best_alpha, best_max_iter\n\n"
+            ],
+            "image": "python:3.8"
+          }
+        }
+      }
+    },
+    "pipelineInfo": {
+      "name": "tc-kfp-lightweight-pipeline"
+    },
+    "root": {
+      "dag": {
+        "tasks": {
+          "condition-deploy-decision-1": {
+            "componentRef": {
+              "name": "comp-condition-deploy-decision-1"
+            },
+            "dependentTasks": [
+              "tune-hyperparameters"
+            ],
+            "inputs": {
+              "parameters": {
+                "pipelineparam--accuracy_deployment_threshold": {
+                  "componentInputParameter": "accuracy_deployment_threshold"
+                },
+                "pipelineparam--pipeline_root": {
+                  "componentInputParameter": "pipeline_root"
+                },
+                "pipelineparam--serving_container_uri": {
+                  "componentInputParameter": "serving_container_uri"
+                },
+                "pipelineparam--training_container_uri": {
+                  "componentInputParameter": "training_container_uri"
+                },
+                "pipelineparam--training_file_path": {
+                  "componentInputParameter": "training_file_path"
+                },
+                "pipelineparam--tune-hyperparameters-best_accuracy": {
+                  "taskOutputParameter": {
+                    "outputParameterKey": "best_accuracy",
+                    "producerTask": "tune-hyperparameters"
+                  }
+                },
+                "pipelineparam--tune-hyperparameters-best_alpha": {
+                  "taskOutputParameter": {
+                    "outputParameterKey": "best_alpha",
+                    "producerTask": "tune-hyperparameters"
+                  }
+                },
+                "pipelineparam--tune-hyperparameters-best_max_iter": {
+                  "taskOutputParameter": {
+                    "outputParameterKey": "best_max_iter",
+                    "producerTask": "tune-hyperparameters"
+                  }
+                },
+                "pipelineparam--validation_file_path": {
+                  "componentInputParameter": "validation_file_path"
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "condition-deploy-decision-1"
+            },
+            "triggerPolicy": {
+              "condition": "inputs.parameters['pipelineparam--tune-hyperparameters-best_accuracy'].double_value >= inputs.parameters['pipelineparam--accuracy_deployment_threshold'].double_value"
+            }
+          },
+          "tune-hyperparameters": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-tune-hyperparameters"
+            },
+            "inputs": {
+              "parameters": {
+                "container_uri": {
+                  "componentInputParameter": "training_container_uri"
+                },
+                "location": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "us-central1"
+                    }
+                  }
+                },
+                "max_trial_count": {
+                  "componentInputParameter": "max_trial_count"
+                },
+                "parallel_trial_count": {
+                  "componentInputParameter": "parallel_trial_count"
+                },
+                "pipelineparam--pipeline_root": {
+                  "componentInputParameter": "pipeline_root"
+                },
+                "project": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "qwiklabs-gcp-01-868d72e03fcc"
+                    }
+                  }
+                },
+                "staging_bucket": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "{{$.inputs.parameters['pipelineparam--pipeline_root']}}/staging"
+                    }
+                  }
+                },
+                "training_file_path": {
+                  "componentInputParameter": "training_file_path"
+                },
+                "validation_file_path": {
+                  "componentInputParameter": "validation_file_path"
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "tune-hyperparameters"
+            }
+          }
+        }
+      },
+      "inputDefinitions": {
+        "parameters": {
+          "accuracy_deployment_threshold": {
+            "type": "DOUBLE"
+          },
+          "max_trial_count": {
+            "type": "INT"
+          },
+          "parallel_trial_count": {
+            "type": "INT"
+          },
+          "pipeline_root": {
+            "type": "STRING"
+          },
+          "serving_container_uri": {
+            "type": "STRING"
+          },
+          "training_container_uri": {
+            "type": "STRING"
+          },
+          "training_file_path": {
+            "type": "STRING"
+          },
+          "validation_file_path": {
+            "type": "STRING"
+          }
+        }
+      }
+    },
+    "schemaVersion": "2.0.0",
+    "sdkVersion": "kfp-1.8.11"
+  },
+  "runtimeConfig": {
+    "gcsOutputDirectory": "gs://iorek-byrnison/tc-cicd-dir/artfact-store/kfp-lightweight",
+    "parameters": {
+      "accuracy_deployment_threshold": {
+        "doubleValue": 0.6
+      },
+      "max_trial_count": {
+        "intValue": "5"
+      },
+      "parallel_trial_count": {
+        "intValue": "5"
+      },
+      "pipeline_root": {
+        "stringValue": "gs://iorek-byrnison/tc-cicd-dir/artfact-store/kfp-lightweight"
+      },
+      "serving_container_uri": {
+        "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.0-20:latest"
+      },
+      "training_container_uri": {
+        "stringValue": "gcr.io/qwiklabs-gcp-01-868d72e03fcc/tc_img_kfp_sklearn_trainer:latest"
+      },
+      "training_file_path": {
+        "stringValue": "gs://iorek-byrnison/tc-cicd-dir/data/tc-data/train1m.csv"
+      },
+      "validation_file_path": {
+        "stringValue": "gs://iorek-byrnison/tc-cicd-dir/data/tc-data/valid1m.csv"
+      }
+    }
+  }
+}

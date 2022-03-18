@@ -1,0 +1,39 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build the trainer image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/tc_img_kfp_sklearn_trainer_cicd:latest', '.']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_kfp_sklearn_trainer
+
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push the trainer image'
+  args: ['push', 'gcr.io/$PROJECT_ID/tc_img_kfp_sklearn_trainer_cicd:latest']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_kfp_sklearn_trainer
+
+
+- name: 'gcr.io/$PROJECT_ID/tc_img_kfp_trigger_cicd'
+  id: 'Compile the pipeline'
+  args:
+  - '-c'
+  - |
+    dsl-compile-v2 --py lightweight_pipeline.py --output tc_cicd_pipeline.json
+  env:
+  - 'PIPELINE_ROOT=gs://iorek-byrnison-kfp-artifact-store/pipeline'
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'REGION=$_REGION'
+  - 'SERVING_CONTAINER_IMAGE_URI=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.0-20:latest'
+  - 'TRAINING_CONTAINER_IMAGE_URI=gcr.io/$PROJECT_ID/tc_img_kfp_sklearn_trainer_cicd:latest'
+  - 'TRAINING_FILE_PATH=gs://iorek-byrnison/tc-cicd-dir/data/tc-data/train1m.csv'
+  - 'VALIDATION_FILE_PATH=gs://iorek-byrnison/tc-cicd-dir/data/tc-data/valid1m.csv'
+  dir: $_PIPELINE_FOLDER/tc_pipelines
+
+- name: 'gcr.io/$PROJECT_ID/tc_img_kfp_trigger_cicd'
+  id: 'Run the pipeline'
+  args:
+  - '-c'
+  - |
+    python $_PIPELINE_FOLDER/tc_triggers/run_cicd_pipeline.py --project_id=$PROJECT_ID --template_path=$_PIPELINE_FOLDER/tc_pipelines/tc_cicd_pipeline.json --display_name=tc_kfp_lightweight_cicd_pipeline --region=$_REGION
+
+images: ['gcr.io/$PROJECT_ID/tc_img_kfp_sklearn_trainer_cicd:latest']
+
+timeout: 10800s

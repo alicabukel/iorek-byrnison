@@ -1,0 +1,894 @@
+{
+  "pipelineSpec": {
+    "components": {
+      "comp-extract-data": {
+        "executorLabel": "exec-extract-data",
+        "inputDefinitions": {
+          "parameters": {
+            "dataset_id": {
+              "type": "STRING"
+            },
+            "dataset_location": {
+              "type": "STRING"
+            },
+            "project_id": {
+              "type": "STRING"
+            },
+            "table_name": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "dataset_gcs_prefix": {
+              "type": "STRING"
+            },
+            "dataset_gcs_uri": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-extract-data-2": {
+        "executorLabel": "exec-extract-data-2",
+        "inputDefinitions": {
+          "parameters": {
+            "dataset_id": {
+              "type": "STRING"
+            },
+            "dataset_location": {
+              "type": "STRING"
+            },
+            "project_id": {
+              "type": "STRING"
+            },
+            "table_name": {
+              "type": "STRING"
+            }
+          }
+        },
+        "outputDefinitions": {
+          "artifacts": {
+            "dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "dataset_gcs_prefix": {
+              "type": "STRING"
+            },
+            "dataset_gcs_uri": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-split-data": {
+        "executorLabel": "exec-split-data",
+        "inputDefinitions": {
+          "parameters": {
+            "dataset_id": {
+              "type": "STRING"
+            },
+            "dataset_location": {
+              "type": "STRING"
+            },
+            "project_id": {
+              "type": "STRING"
+            },
+            "query": {
+              "type": "STRING"
+            },
+            "query_job_config": {
+              "type": "STRING"
+            },
+            "table_id": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-split-data-2": {
+        "executorLabel": "exec-split-data-2",
+        "inputDefinitions": {
+          "parameters": {
+            "dataset_id": {
+              "type": "STRING"
+            },
+            "dataset_location": {
+              "type": "STRING"
+            },
+            "project_id": {
+              "type": "STRING"
+            },
+            "query": {
+              "type": "STRING"
+            },
+            "query_job_config": {
+              "type": "STRING"
+            },
+            "table_id": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train-and-deploy": {
+        "executorLabel": "exec-train-and-deploy",
+        "inputDefinitions": {
+          "artifacts": {
+            "training_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "validation_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "serving_container_uri": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train-and-deploy-2": {
+        "executorLabel": "exec-train-and-deploy-2",
+        "inputDefinitions": {
+          "artifacts": {
+            "training_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "validation_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "serving_container_uri": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train-and-deploy-3": {
+        "executorLabel": "exec-train-and-deploy-3",
+        "inputDefinitions": {
+          "artifacts": {
+            "training_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "validation_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "serving_container_uri": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train-and-deploy-4": {
+        "executorLabel": "exec-train-and-deploy-4",
+        "inputDefinitions": {
+          "artifacts": {
+            "training_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            },
+            "validation_dataset": {
+              "artifactType": {
+                "schemaTitle": "system.Dataset",
+                "schemaVersion": "0.0.1"
+              }
+            }
+          },
+          "parameters": {
+            "container_uri": {
+              "type": "STRING"
+            },
+            "location": {
+              "type": "STRING"
+            },
+            "project": {
+              "type": "STRING"
+            },
+            "serving_container_uri": {
+              "type": "STRING"
+            },
+            "staging_bucket": {
+              "type": "STRING"
+            }
+          }
+        }
+      }
+    },
+    "deploymentSpec": {
+      "executors": {
+        "exec-extract-data": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "extract_data"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-bigquery==2.30.0' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef extract_data(\n    project_id: str,\n    dataset_id: str,\n    table_name: str,\n    dataset: Output[Dataset],\n    dataset_location: str = \"us-central1\",\n    extract_job_config: dict = None,\n) -> NamedTuple(\"Outputs\", [(\"dataset_gcs_prefix\", str), (\"dataset_gcs_uri\", list)]):\n    import os\n    from google.cloud.exceptions import GoogleCloudError\n    from google.cloud import bigquery\n    from typing import NamedTuple\n\n    full_table_id = f\"{project_id}.{dataset_id}.{table_name}\"\n\n    if extract_job_config is None:\n        extract_job_config = {}\n\n    table = bigquery.table.Table(table_ref=full_table_id)\n    job_config = bigquery.job.ExtractJobConfig(**extract_job_config)\n    client = bigquery.client.Client(project=project_id, location=dataset_location)\n\n    dataset_gcs_uri = dataset.uri\n    dataset_directory = os.path.dirname(dataset_gcs_uri)\n\n    extract_job = client.extract_table(\n        table,\n        dataset_gcs_uri,\n        job_config=job_config,\n    )\n\n    try:\n        result = extract_job.result()\n    except GoogleCloudError as e:\n        raise e\n\n    outputs = NamedTuple(\"Outputs\", [(\"dataset_gcs_prefix\", str), (\"dataset_gcs_uri\", list)])\n    ret_val = outputs(dataset_gcs_prefix=dataset_directory, dataset_gcs_uri=[dataset_gcs_uri])\n    return ret_val\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-extract-data-2": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "extract_data"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-bigquery==2.30.0' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef extract_data(\n    project_id: str,\n    dataset_id: str,\n    table_name: str,\n    dataset: Output[Dataset],\n    dataset_location: str = \"us-central1\",\n    extract_job_config: dict = None,\n) -> NamedTuple(\"Outputs\", [(\"dataset_gcs_prefix\", str), (\"dataset_gcs_uri\", list)]):\n    import os\n    from google.cloud.exceptions import GoogleCloudError\n    from google.cloud import bigquery\n    from typing import NamedTuple\n\n    full_table_id = f\"{project_id}.{dataset_id}.{table_name}\"\n\n    if extract_job_config is None:\n        extract_job_config = {}\n\n    table = bigquery.table.Table(table_ref=full_table_id)\n    job_config = bigquery.job.ExtractJobConfig(**extract_job_config)\n    client = bigquery.client.Client(project=project_id, location=dataset_location)\n\n    dataset_gcs_uri = dataset.uri\n    dataset_directory = os.path.dirname(dataset_gcs_uri)\n\n    extract_job = client.extract_table(\n        table,\n        dataset_gcs_uri,\n        job_config=job_config,\n    )\n\n    try:\n        result = extract_job.result()\n    except GoogleCloudError as e:\n        raise e\n\n    outputs = NamedTuple(\"Outputs\", [(\"dataset_gcs_prefix\", str), (\"dataset_gcs_uri\", list)])\n    ret_val = outputs(dataset_gcs_prefix=dataset_directory, dataset_gcs_uri=[dataset_gcs_uri])\n    return ret_val\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-split-data": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "split_data"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-bigquery==2.30.0' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef split_data(\n    query: str,\n    project_id: str,\n    dataset_id: str = None,\n    table_id: str = None,\n    dataset_location: str = \"us-central1\",\n    query_job_config: dict = None,\n) -> None:\n    from google.cloud.exceptions import GoogleCloudError\n    from google.cloud import bigquery\n\n    if (dataset_id is not None) and (table_id is not None):\n        dest_table_ref = f\"{project_id}.{dataset_id}.{table_id}\"\n    else:\n        dest_table_ref = None\n    if query_job_config is None:\n        query_job_config = {}\n    bq_client = bigquery.client.Client(project=project_id, location=dataset_location)\n    job_config = bigquery.QueryJobConfig(destination=dest_table_ref, **query_job_config)\n    query_job = bq_client.query(query, job_config=job_config)\n\n    try:\n        result = query_job.result()\n    except GoogleCloudError as e:\n        raise e\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-split-data-2": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "split_data"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-bigquery==2.30.0' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef split_data(\n    query: str,\n    project_id: str,\n    dataset_id: str = None,\n    table_id: str = None,\n    dataset_location: str = \"us-central1\",\n    query_job_config: dict = None,\n) -> None:\n    from google.cloud.exceptions import GoogleCloudError\n    from google.cloud import bigquery\n\n    if (dataset_id is not None) and (table_id is not None):\n        dest_table_ref = f\"{project_id}.{dataset_id}.{table_id}\"\n    else:\n        dest_table_ref = None\n    if query_job_config is None:\n        query_job_config = {}\n    bq_client = bigquery.client.Client(project=project_id, location=dataset_location)\n    job_config = bigquery.QueryJobConfig(destination=dest_table_ref, **query_job_config)\n    query_job = bq_client.query(query, job_config=job_config)\n\n    try:\n        result = query_job.result()\n    except GoogleCloudError as e:\n        raise e\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-train-and-deploy": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "train_and_deploy"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform==1.7.1' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_and_deploy(\n    project: str,\n    location: str,\n    container_uri: str,\n    serving_container_uri: str,\n    training_dataset: Input[Dataset],\n    validation_dataset: Input[Dataset],\n    staging_bucket: str,\n):\n\n    from google.cloud import aiplatform\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n    job = aiplatform.CustomContainerTrainingJob(\n        display_name=\"telco_churn_kfp_training_tensorflow\",\n        container_uri=container_uri,\n        command=[\n            \"python\",\n            \"train.py\",\n            f\"--training_dataset_path={training_dataset.uri}\",\n            f\"--validation_dataset_path={validation_dataset.uri}\",\n            '--batch_size', '32', \n            '--num_train_examples', '1000',\n            '--num_evals', '10',\n        ],\n        staging_bucket=staging_bucket,\n        model_serving_container_image_uri=serving_container_uri,\n    )\n    model = job.run(replica_count=1, model_display_name=\"telco_churn_kfp_model_tensorflow\")\n    endpoint = model.deploy( \n        traffic_split={\"0\": 100},\n        machine_type=\"n1-standard-2\",\n    )\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-train-and-deploy-2": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "train_and_deploy"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform==1.7.1' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_and_deploy(\n    project: str,\n    location: str,\n    container_uri: str,\n    serving_container_uri: str,\n    training_dataset: Input[Dataset],\n    validation_dataset: Input[Dataset],\n    staging_bucket: str,\n):\n\n    from google.cloud import aiplatform\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n    job = aiplatform.CustomContainerTrainingJob(\n        display_name=\"telco_churn_kfp_training_sklearn\",\n        container_uri=container_uri,\n        command=[\n            \"python\",\n            \"train.py\",\n            f\"--training_dataset_path={training_dataset.uri}\",\n            f\"--validation_dataset_path={validation_dataset.uri}\",\n        ],\n        staging_bucket=staging_bucket,\n        model_serving_container_image_uri=serving_container_uri,\n    )\n    model = job.run(replica_count=1, model_display_name=\"telco_churn_kfp_model_sklearn\")\n    endpoint = model.deploy( \n        traffic_split={\"0\": 100},\n        machine_type=\"n1-standard-2\",\n    )\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-train-and-deploy-3": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "train_and_deploy"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform==1.7.1' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_and_deploy(\n    project: str,\n    location: str,\n    container_uri: str,\n    serving_container_uri: str,\n    training_dataset: Input[Dataset],\n    validation_dataset: Input[Dataset],\n    staging_bucket: str,\n):\n\n    from google.cloud import aiplatform\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n    job = aiplatform.CustomContainerTrainingJob(\n        display_name=\"telco_churn_kfp_training_pytorch\",\n        container_uri=container_uri,\n        command=[\n            \"python\",\n            \"train.py\",\n            f\"--training_dataset_path={training_dataset.uri}\",\n            f\"--validation_dataset_path={validation_dataset.uri}\",\n            '--batch_size', '64', \n            '--num_epochs', '15',\n        ],\n        staging_bucket=staging_bucket,\n        model_serving_container_image_uri=serving_container_uri,\n    )\n    model = job.run(replica_count=1, model_display_name=\"telco_churn_kfp_model_pytorch\")\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        },
+        "exec-train-and-deploy-4": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "train_and_deploy"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'google-cloud-aiplatform==1.7.1' 'kfp==1.8.11' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_and_deploy(\n    project: str,\n    location: str,\n    container_uri: str,\n    serving_container_uri: str,\n    training_dataset: Input[Dataset],\n    validation_dataset: Input[Dataset],\n    staging_bucket: str,\n):\n\n    from google.cloud import aiplatform\n\n    aiplatform.init(\n        project=project, location=location, staging_bucket=staging_bucket\n    )\n    job = aiplatform.CustomContainerTrainingJob(\n        display_name=\"telco_churn_kfp_training_xgb\",\n        container_uri=container_uri,\n        command=[\n            \"python\",\n            \"train.py\",\n            f\"--training_dataset_path={training_dataset.uri}\",\n            f\"--validation_dataset_path={validation_dataset.uri}\",\n            '--max_depth', '10', \n            '--n_estimators', '100',\n        ],\n        staging_bucket=staging_bucket,\n        model_serving_container_image_uri=serving_container_uri,\n    )\n    model = job.run(replica_count=1, model_display_name=\"telco_churn_kfp_model_xgb\")\n    endpoint = model.deploy( \n        traffic_split={\"0\": 100},\n        machine_type=\"n1-standard-2\",\n    )\n\n"
+            ],
+            "image": "python:3.7"
+          }
+        }
+      }
+    },
+    "pipelineInfo": {
+      "name": "tc-kfp-multiple-pipeline"
+    },
+    "root": {
+      "dag": {
+        "tasks": {
+          "extract-data": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-extract-data"
+            },
+            "dependentTasks": [
+              "split-data"
+            ],
+            "inputs": {
+              "parameters": {
+                "dataset_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "iorek_byrnison"
+                    }
+                  }
+                },
+                "dataset_location": {
+                  "componentInputParameter": "region"
+                },
+                "project_id": {
+                  "componentInputParameter": "project_id"
+                },
+                "table_name": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "telco_churn_train_multi"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Extract BQ Train table to GCS"
+            }
+          },
+          "extract-data-2": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-extract-data-2"
+            },
+            "dependentTasks": [
+              "split-data-2"
+            ],
+            "inputs": {
+              "parameters": {
+                "dataset_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "iorek_byrnison"
+                    }
+                  }
+                },
+                "dataset_location": {
+                  "componentInputParameter": "region"
+                },
+                "project_id": {
+                  "componentInputParameter": "project_id"
+                },
+                "table_name": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "telco_churn_valid_multi"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Extract BQ Validation table to GCS"
+            }
+          },
+          "split-data": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-split-data"
+            },
+            "inputs": {
+              "parameters": {
+                "dataset_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "iorek_byrnison"
+                    }
+                  }
+                },
+                "dataset_location": {
+                  "componentInputParameter": "region"
+                },
+                "project_id": {
+                  "componentInputParameter": "project_id"
+                },
+                "query": {
+                  "componentInputParameter": "train_query"
+                },
+                "query_job_config": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "{\"write_disposition\": \"WRITE_TRUNCATE\"}"
+                    }
+                  }
+                },
+                "table_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "telco_churn_train_multi"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "BQ Train Split"
+            }
+          },
+          "split-data-2": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-split-data-2"
+            },
+            "inputs": {
+              "parameters": {
+                "dataset_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "iorek_byrnison"
+                    }
+                  }
+                },
+                "dataset_location": {
+                  "componentInputParameter": "region"
+                },
+                "project_id": {
+                  "componentInputParameter": "project_id"
+                },
+                "query": {
+                  "componentInputParameter": "validation_query"
+                },
+                "query_job_config": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "{\"write_disposition\": \"WRITE_TRUNCATE\"}"
+                    }
+                  }
+                },
+                "table_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "telco_churn_valid_multi"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "BQ Validation Split"
+            }
+          },
+          "train-and-deploy": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-train-and-deploy"
+            },
+            "dependentTasks": [
+              "extract-data",
+              "extract-data-2"
+            ],
+            "inputs": {
+              "artifacts": {
+                "training_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data"
+                  }
+                },
+                "validation_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data-2"
+                  }
+                }
+              },
+              "parameters": {
+                "container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gcr.io/qwiklabs-gcp-01-868d72e03fcc/tc_img_tf_trainer:latest"
+                    }
+                  }
+                },
+                "location": {
+                  "componentInputParameter": "region"
+                },
+                "project": {
+                  "componentInputParameter": "project_id"
+                },
+                "serving_container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-1:latest"
+                    }
+                  }
+                },
+                "staging_bucket": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi/staging"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Tensorflow Train and Deploy"
+            }
+          },
+          "train-and-deploy-2": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-train-and-deploy-2"
+            },
+            "dependentTasks": [
+              "extract-data",
+              "extract-data-2"
+            ],
+            "inputs": {
+              "artifacts": {
+                "training_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data"
+                  }
+                },
+                "validation_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data-2"
+                  }
+                }
+              },
+              "parameters": {
+                "container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gcr.io/qwiklabs-gcp-01-868d72e03fcc/tc_img_sk_trainer:latest"
+                    }
+                  }
+                },
+                "location": {
+                  "componentInputParameter": "region"
+                },
+                "project": {
+                  "componentInputParameter": "project_id"
+                },
+                "serving_container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.0-20:latest"
+                    }
+                  }
+                },
+                "staging_bucket": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi/staging"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Sklearn Train and Deploy"
+            }
+          },
+          "train-and-deploy-3": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-train-and-deploy-3"
+            },
+            "dependentTasks": [
+              "extract-data",
+              "extract-data-2"
+            ],
+            "inputs": {
+              "artifacts": {
+                "training_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data"
+                  }
+                },
+                "validation_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data-2"
+                  }
+                }
+              },
+              "parameters": {
+                "container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gcr.io/qwiklabs-gcp-01-868d72e03fcc/tc_img_torch_trainer:latest"
+                    }
+                  }
+                },
+                "location": {
+                  "componentInputParameter": "region"
+                },
+                "project": {
+                  "componentInputParameter": "project_id"
+                },
+                "serving_container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/pytorch-xla.1-6:latest"
+                    }
+                  }
+                },
+                "staging_bucket": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi/staging"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "PyTorch Train and Deploy"
+            }
+          },
+          "train-and-deploy-4": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-train-and-deploy-4"
+            },
+            "dependentTasks": [
+              "extract-data",
+              "extract-data-2"
+            ],
+            "inputs": {
+              "artifacts": {
+                "training_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data"
+                  }
+                },
+                "validation_dataset": {
+                  "taskOutputArtifact": {
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "extract-data-2"
+                  }
+                }
+              },
+              "parameters": {
+                "container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gcr.io/qwiklabs-gcp-01-868d72e03fcc/tc_img_xgb_trainer:latest"
+                    }
+                  }
+                },
+                "location": {
+                  "componentInputParameter": "region"
+                },
+                "project": {
+                  "componentInputParameter": "project_id"
+                },
+                "serving_container_uri": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "us-docker.pkg.dev/vertex-ai/prediction/xgboost-cpu.1-2:latest"
+                    }
+                  }
+                },
+                "staging_bucket": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi/staging"
+                    }
+                  }
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "XGboost Train and Deploy"
+            }
+          }
+        }
+      },
+      "inputDefinitions": {
+        "parameters": {
+          "pipeline_root": {
+            "type": "STRING"
+          },
+          "project_id": {
+            "type": "STRING"
+          },
+          "region": {
+            "type": "STRING"
+          },
+          "train_query": {
+            "type": "STRING"
+          },
+          "validation_query": {
+            "type": "STRING"
+          }
+        }
+      }
+    },
+    "schemaVersion": "2.0.0",
+    "sdkVersion": "kfp-1.8.11"
+  },
+  "runtimeConfig": {
+    "gcsOutputDirectory": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi",
+    "parameters": {
+      "pipeline_root": {
+        "stringValue": "gs://iorek-byrnison/tc-cicd-dir/kfp-multi"
+      },
+      "project_id": {
+        "stringValue": "qwiklabs-gcp-01-868d72e03fcc"
+      },
+      "region": {
+        "stringValue": "us-central1"
+      },
+      "train_query": {
+        "stringValue": "SELECT  gender,\n                       SeniorCitizen,\n                       Partner,\n                       Dependents,\n                       tenure,\n                       PhoneService,\n                       MultipleLines,\n                       InternetService,\n                       OnlineSecurity,\n                       OnlineBackup,\n                       DeviceProtection,\n                       TechSupport,\n                       StreamingTV,\n                       StreamingMovies,\n                       Contract,\n                       PaperlessBilling,\n                       PaymentMethod,\n                       MonthlyCharges,\n                       COALESCE(TotalCharges,0) AS TotalCharges,\n                       Churn\n            FROM iorek_byrnison.telco_churn_1m_new_TVT\n    WHERE SPLIT_TVT = 'TRAIN'"
+      },
+      "validation_query": {
+        "stringValue": "SELECT  gender,\n                       SeniorCitizen,\n                       Partner,\n                       Dependents,\n                       tenure,\n                       PhoneService,\n                       MultipleLines,\n                       InternetService,\n                       OnlineSecurity,\n                       OnlineBackup,\n                       DeviceProtection,\n                       TechSupport,\n                       StreamingTV,\n                       StreamingMovies,\n                       Contract,\n                       PaperlessBilling,\n                       PaymentMethod,\n                       MonthlyCharges,\n                       COALESCE(TotalCharges,0) AS TotalCharges,\n                       Churn\n            FROM iorek_byrnison.telco_churn_1m_new_TVT\n    WHERE SPLIT_TVT = 'VALIDATION'"
+      }
+    }
+  }
+}

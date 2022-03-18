@@ -1,0 +1,75 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build the Scikit Learn trainer image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/tc_img_sk_trainer:latest', '.']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_sk_trainer
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push the Scikit Learn trainer image'
+  args: ['push', 'gcr.io/$PROJECT_ID/tc_img_sk_trainer:latest']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_sk_trainer
+  
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build the XGBoost trainer image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/tc_img_xgb_trainer:latest', '.']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_xgb_trainer
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push the XGBoost trainer image'
+  args: ['push', 'gcr.io/$PROJECT_ID/tc_img_xgb_trainer:latest']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_xgb_trainer
+  
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build the Tensorflow trainer image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/tc_img_tf_trainer:latest', '.']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_tf_trainer
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push the Tensorflow trainer image'
+  args: ['push', 'gcr.io/$PROJECT_ID/tc_img_tf_trainer:latest']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_tf_trainer
+  
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build the PyTorch trainer image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/tc_img_torch_trainer:latest', '.']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_torch_trainer
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push the PyTorch trainer image'
+  args: ['push', 'gcr.io/$PROJECT_ID/tc_img_torch_trainer:latest']
+  dir: $_PIPELINE_FOLDER/tc_images/tc_img_torch_trainer
+
+- name: 'gcr.io/$PROJECT_ID/tc_img_kfp_trigger_cicd'
+  id: 'Compile the pipeline'
+  args:
+  - '-c'
+  - |
+    dsl-compile-v2 --py multi_pipeline.py --output tc_kfp_multi_pipeline.json
+  env:
+  - 'PIPELINE_ROOT=gs://iorek-byrnison/tc-cicd-dir/kfp-multi'
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'REGION=$_REGION'
+  - 'BUCKET=iorek-byrnison'
+  - 'SCIKIT_TRAINER_IMAGE=gcr.io/$PROJECT_ID/tc_img_sk_trainer:latest'
+  - 'XGB_TRAINER_IMAGE=gcr.io/$PROJECT_ID/tc_img_xgb_trainer:latest'
+  - 'TF_TRAINER_IMAGE=gcr.io/$PROJECT_ID/tc_img_tf_trainer:latest'
+  - 'TORCH_TRAINER_IMAGE=gcr.io/$PROJECT_ID/tc_img_torch_trainer:latest'
+  - 'SCIKIT_SERVING_IMAGE=us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.0-20:latest'
+  - 'XGB_SERVING_IMAGE=us-docker.pkg.dev/vertex-ai/prediction/xgboost-cpu.1-2:latest'
+  - 'TF_SERVING_IMAGE=us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-1:latest'
+  - 'TORCH_SERVING_IMAGE=us-docker.pkg.dev/vertex-ai/prediction/pytorch-xla.1-6:latest'
+  dir: $_PIPELINE_FOLDER/tc_pipelines
+
+- name: 'gcr.io/$PROJECT_ID/tc_img_kfp_trigger_cicd'
+  id: 'Run the pipeline'
+  args:
+  - '-c'
+  - |
+    python $_PIPELINE_FOLDER/tc_triggers/run_cicd_pipeline.py --project_id=$PROJECT_ID --template_path=$_PIPELINE_FOLDER/tc_pipelines/tc_kfp_multi_pipeline.json --display_name=tc_kfp_multi_cicd_pipeline --region=$_REGION
+
+images: ['gcr.io/$PROJECT_ID/tc_img_sk_trainer:latest',
+         'gcr.io/$PROJECT_ID/tc_img_xgb_trainer:latest',
+         'gcr.io/$PROJECT_ID/tc_img_tf_trainer:latest',
+         'gcr.io/$PROJECT_ID/tc_img_torch_trainer:latest']
+
+timeout: 10800s
